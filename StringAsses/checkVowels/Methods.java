@@ -188,30 +188,59 @@ public interface Methods {
 	public static boolean isPasswordValid(String password) {
 		
     	if(password!=null&&password.length()>8&&password.length()<15) {
-    		if(isContainLowerCaseChar(password)) {
-    			if(isContainUpperCaseChar(password)) {
-    		    	if(!(isContainSpace(password))) {
-    				    if(isContainSpecialChar(password)) {
-    						if(isContainNumber(password)) {
-    							return true;
-    						}else {
-    				    		return false;
-    				    	}
-    					}else {
-    			    		return false;
-    			    	}
-    				}else {
-    		    		return false;
-    		    	}
-    			}else {
-    	    		return false;
-    	    	}
-    		}else {
-        		return false;
-        	}
-    		
+    		if(!isContainLowerCaseChar(password)) return false;
+    			if(!isContainUpperCaseChar(password)) return false;
+    		    	if(isContainSpace(password)) return false;
+    				    if(!isContainSpecialChar(password)) return false;
+    						if(!isContainNumber(password)) return false;
+    						 return true;
+
     	}else {
     		return false;
     	}
 	}
+	
+	public static boolean isAnagram(String string1,String string2) {
+		if(string1.length()!=string2.length()) return false;
+	    StringBuffer stringBuffer=new StringBuffer(string2);
+		for (int i = 0; i < string1.length(); i++) {
+			boolean flag = true;
+			for(int j = 0;j<stringBuffer.length();j++) {
+				if(string1.charAt(i)==stringBuffer.charAt(j)) {
+					flag = false ;
+					stringBuffer.deleteCharAt(j);
+					break;
+				}
+			}
+			if(flag) return false;
+		}
+		return true;
+	}
+	
+	public static boolean isAnagram1(String string1,String string2) {
+		if(string1.length()!=string2.length()) return false;
+
+		int charArray[] = new int[256];
+		for (int i = 0; i < string1.length(); i++) {
+			charArray[string1.charAt(i)]++ ;
+		}
+		for (int i = 0; i < string2.length(); i++) {
+			charArray[string2.charAt(i)]--;
+			if(charArray[string2.charAt(i)]<0) return false;
+		}
+		return true;
+	}
+	public static void reversWords(StringBuffer str) {
+		String string[]=str.toString().split(" ");
+		int lastIndex = 0;
+		int firstIndex = 0;
+		for (int i = 0; i < string.length; i++) {
+			lastIndex+=string[i].length();
+			str.replace(firstIndex, lastIndex, reverseString(string[i]));
+			lastIndex++;
+			firstIndex =lastIndex;
+		}
+	}
+	
+
 }
