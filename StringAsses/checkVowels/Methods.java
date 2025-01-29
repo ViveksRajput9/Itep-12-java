@@ -1,5 +1,7 @@
 package StringAsses.checkVowels;
 
+import java.util.Iterator;
+
 public interface Methods {
 	public static boolean isVowel(char c) {
 		if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O'
@@ -15,7 +17,10 @@ public interface Methods {
 		else
 			return false;
 	}
-
+	public static boolean isDigit(char c) {
+		if(c>=48&&c<=57) return true;
+		return false;
+	}
 	public static int countVowels(String ar) {
 		int count = 0;
 		for (int i = 0; i < ar.strip().length(); i++) {
@@ -53,7 +58,69 @@ public interface Methods {
 		}
 		return count;
 	}
+	public static void mostOccuredChar(String str) {
+		int arr[] = new int[256];
+		int occurCharValue = 0;
+		char occurChar = 0;
 
+		for(int i=0;i<str.length();i++) {
+			int c = str.charAt(i);
+			if(c==' ') continue;
+			arr[c]++;
+			if(occurCharValue < arr[c]) {
+			   occurCharValue = arr[c];
+			   occurChar =  (char)c;	 
+			}
+		}
+		System.out.println("Most frequent character : "+occurChar + " ( "+ occurCharValue +" times )");
+	}
+	public static char firstNonRepeatedChar(String str) {
+		int arr[] = new int[256];
+		for(int i=0;i<str.length();i++) {
+			int c = str.charAt(i);
+			if(c==' ') continue;
+		 	arr[c]++;
+		}
+		for(int i=0;i<str.length();i++) {
+			if(arr[str.charAt(i)]==1) return str.charAt(i);
+		}
+		return '0';
+	}
+	public static String removeDuplicateString(String string) {
+		int arr[] = new int[256];
+		StringBuilder stringBuilder = new StringBuilder();
+		for(int i=0;i<string.length();i++) {
+			char c = string.charAt(i);
+			if(c==' ') continue;
+		 	arr[c]++;
+		 	if(arr[c] == 1) stringBuilder.append(c);
+		}
+		
+		return stringBuilder.toString();
+	}
+	public static String removeAllDigits(String string) {
+		String string1 = "";
+		for (int i = 0; i < string.length(); i++) {
+			if(!isDigit(string.charAt(i))) string1 += string.charAt(i);
+		}
+		return string1;
+	}
+	public static String shortestWord(String string) {
+		if(string.isEmpty()) return null;
+		String arr[] = string.split(" ");
+		if(arr.length < 1) return arr[0];
+		String string2= arr[0];
+		int sortLengthStringValue = arr[0].length();
+		
+		for (int i = 1; i < arr.length; i++) {
+			int length= arr[i].length();
+			if(length < sortLengthStringValue) {
+				sortLengthStringValue = length;
+				string2 = arr[i];
+			}
+		}
+		return string2;
+	}
 	public static boolean isContainUpperCaseChar(String string) {
 		for (int i = 0; i < string.length(); i++) {
 			int value = string.charAt(i);
@@ -239,8 +306,41 @@ public interface Methods {
 			str.replace(firstIndex, lastIndex, reverseString(string[i]));
 			lastIndex++;
 			firstIndex =lastIndex;
+			
 		}
 	}
-	
+	public static void reverseSentences(StringBuilder stringBuilder) {
+		String ss= "";
+		int length = stringBuilder.length()-1;
+		
+		for (int i = stringBuilder.length()-1; i>=0 ; i--) {
+			if(stringBuilder.charAt(i)==' '||i==0) {
+				
+				for (int j = i; j <= length ; j++) {
+					ss += stringBuilder.charAt(j);
+				}
+				length  = length-(length-i);
+				 
+			}	
+		}
+		stringBuilder.replace(0, stringBuilder.length(), ss);
+	}
+	public static void reverseSentences1(StringBuilder stringBuilder) {
+		String aString[] = stringBuilder.toString().split(" ");
+		
+		for (int i = 0;i<aString.length/2; i++) {
+			 String tempString = aString[i]; 
+			 aString[i]=aString[(aString.length-1)-i];
+			 aString[(aString.length-1)-i] = tempString;
+			 System.out.println(aString[i]);
+			 System.out.println(aString[(aString.length-1)-i]);
+		}
+		int index=0;
+		for (String arr:aString) {
+			arr +=" ";
+			stringBuilder.replace(index,arr.length()+index, arr);
+			index += arr.length();
+		}
+	}
 
 }
